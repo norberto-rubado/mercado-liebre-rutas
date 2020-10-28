@@ -30,14 +30,14 @@
 					</div>
 					<div class="col-12 col-md-6">
 						<label for="Imagen" class="form-label">Imagen:</label>
-						<input type="file" id="image" name="image" value="<%= product.image%>" class="form-input">
+						<input type="file" id="image" name="image" class="form-input">
 					</div>
 					<div class="col-12 col-md-6">
 						<label for="category" class="form-label">Categoría:</label>
 						<select name="category" id="category" class="form-input" value="<%= product.category%>">  
 							<option value="">Elegí</option>
-							<option value="in-sale">En oferta</option>
-							<option value="visited" >Últimos agregados</option>
+							<option value="in-sale" <% if (product.category=="in-sale") {%> Selected <% } %>>En oferta</option>
+							<option value="visited" <% if (product.category=="visited") {%> Selected <% } %>>Últimos agregados</option>
 						</select>
 					</div>
 					<div class="col-12">

@@ -17,6 +17,9 @@ const controller = {
 		product = products.find(function(item){
 			return (req.params.id == item.id)
 		})
+
+		product.price = toThousand(product.price)
+
 		res.render("detail",{product : product})
 	},
 
@@ -28,11 +31,14 @@ const controller = {
 	// Create -  Method to store
 	store: (req, res, next) => {
 
-		console.log(req.body)
+		let product_image = ""
+				if (req.files[0] !== undefined) {
+			let product_image = req.files[0].filename
+		}
 
 		products.push ({
 			id : products[products.length-1].id + 1,
-			image : req.files[0].filename,
+			image : product_image,
 			...req.body
 		})
 
@@ -50,8 +56,11 @@ const controller = {
 			return (req.params.id == item.id)
 		})
 
+		product.price = toThousand(product.price)
+
 		res.render("product-edit-form",{product : product})
 	},
+	
 	// Update - Method to update
 	update: (req, res, next) => {
 
@@ -60,7 +69,9 @@ const controller = {
 				 item.name = req.body.name;
 				 item.price = req.body.price;
 				 item.discount = req.body.discount;
-				 item.image = req.files[0].filename;
+				 if (req.files[0] !== undefined) {
+				 	item.image = req.files[0].filename;
+				 }
 				 item.category = req.body.category;
 				 item.description = req.body.description;
 			 }
@@ -78,9 +89,6 @@ const controller = {
 		let filtro = products.filter (function(item) {
 			return (item.id != req.params.id)
 		 })    
-		 
-		 console.log(filtro)
-		 console.log(req.params.id)
 
 		 let archivo = JSON.stringify(filtro)
 
